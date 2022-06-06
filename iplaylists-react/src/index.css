@@ -1,0 +1,7 @@
+body {
+  background-color: black;
+}
+
+html, body, #all, #app, #app>div {
+  height: 100vh;
+}

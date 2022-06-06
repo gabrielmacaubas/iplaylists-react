@@ -1,0 +1,25 @@
+.card-header, .navbar {
+  background-color: #20c9965d !important;
+}
+
+button {
+  background-color: #20c9965d !important;
+}
+
+h2 {
+  color: white;
+}
+
+.card {
+  max-width: 30rem;
+}
+
+#songsTitle {
+  height: 0;
+  margin: 0;
+}
+
+#data:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
