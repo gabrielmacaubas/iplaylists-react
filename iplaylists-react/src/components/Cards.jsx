@@ -1,4 +1,19 @@
+import { useState, useEffect } from 'react'
+
 function Cards({title}) {
+
+  const [playlist, setPlaylist] = useState([])
+  useEffect(() => {
+    const loadPlaylist = async () => {
+      const playlist = await fetch('https://json-server.gabrielmacaubas.repl.co/data');
+      const dataPlaylist = await playlist.json();
+
+      setPlaylist(dataPlaylist)
+      console.log(dataPlaylist)
+    };
+    loadPlaylist();
+  }, []) 
+  
   return (
       <div className="col">
           <div className="card text-light bg-dark mx-auto border-2 border-warning">
@@ -17,6 +32,11 @@ function Cards({title}) {
               </div>
 
               <ul className="list-group list-group-flush" id="playlists">
+                { 
+                  playlist.map((ele, i) => (
+                  <li key = {i} className={"list-group-item "+ele.id} id="data">{ele.name}</li>
+                  )) 
+                }
               </ul>
           </div>
       </div>
