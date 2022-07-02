@@ -73,18 +73,12 @@ formPlaylist.onsubmit = async function(e){
 
     const offCanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight'));
 
-    offCanvas.show();
-
-    const inputPlaylist = document.querySelector('#inputPlaylist');
-
     const temp = {
         "name": inputPlaylist.value,
         "songs": []
     }
 
     const newPlaylist = createPlaylistView(temp);
-
-    playlistsDeck.insertAdjacentHTML('beforeend', newPlaylist);
 
     const res = await fetch(`${api}/data`, {
         method: 'post',
@@ -93,13 +87,6 @@ formPlaylist.onsubmit = async function(e){
             'Content-Type': 'application/json; charset=UTF-8',
          },
     });
-    
-
-    formPlaylist.reset();
-    offCanvas.hide();
-    updatePlaylistOptions();
-    addClickableEvent();
-    updateSongs(temp.id-1);
 
     return await res.json();
 
