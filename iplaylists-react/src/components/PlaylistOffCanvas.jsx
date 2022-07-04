@@ -16,48 +16,84 @@ function PlaylistOffCanvas() {
   
     };
 
+    const validPlaylist = new RegExp(
+        '^[a-zA-Z ]+$'
+    );
+    const validatePlaylist = (playlist) => {
+        if (!validPlaylist.test(playlist)) {
+            return true;
+        }
+        return false;
+    };
     const handleSubmitPlaylist = async function(e) { 
         e.preventDefault();
-        
-        const temp = {
-            "name": e.target.inputPlaylist.value,
-            "songs": []
-        }
-        
-        const res = await fetch(`${api}/data`, {
-            method: 'post',
-            body: JSON.stringify(temp),
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-             },
-        });
-        
-        e.target.reset();
 
-        return await res.json();
+        const validate = validatePlaylist(e.target.inputPlaylist.value);
+
+        if(!validate){
+            console.log("passou")
+
+            const temp = {
+                "name": e.target.inputPlaylist.value,
+                "songs": []
+            }
+            
+            const res = await fetch(`${api}/data`, {
+                method: 'post',
+                body: JSON.stringify(temp),
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                },
+            });
+            
+            e.target.reset();
+
+            return await res.json();
+        } else {
+            window.alert("Digite um nome de playlist válido.");
+            e.target.reset();
+        }
     }
+
+    const validSong = new RegExp(
+        '^[a-zA-Z -]+$'
+    );
+    const validateSong = (song) => {
+        if (!validSong.test(song)) {
+            return true;
+        }
+        return false;
+    };
 
     const handleSubmitSong = async function(e) {
         e.preventDefault();
-        
-        const all = await readAll();
-        const songs = all[e.target.select.selectedIndex].songs;
-        
-        const temp = {
-            "name": e.target.select.value,
-            "songs": [...songs, e.target.inputSong.value]
-        }
-        
-        const res = await fetch(`${api}/data/${e.target.select.selectedIndex+1}`, {
-            method: 'put',
-            body: JSON.stringify(temp),
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-        });
-        
 
-        e.target.reset();
+        const validate = validateSong(e.target.inputSong.value);
+
+        if(!validate){
+
+            const all = await readAll();
+            const songs = all[e.target.select.selectedIndex].songs;
+            
+            const temp = {
+                "name": e.target.select.value,
+                "songs": [...songs, e.target.inputSong.value]
+            }
+            
+            const res = await fetch(`${api}/data/${e.target.select.selectedIndex+1}`, {
+                method: 'put',
+                body: JSON.stringify(temp),
+                headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                },
+            });
+            
+
+            e.target.reset();
+        } else {
+            window.alert("Digite um nome de música válido.");
+            e.target.reset();
+        }
     }
 
     const [playlistOptions, setPlaylistOptions] = useState([])
